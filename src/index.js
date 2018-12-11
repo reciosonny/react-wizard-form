@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import M from 'materialize-css';
+import FormikForm from './FormikForm';
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

@@ -1,74 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import FormInputs from "./SharedComponents/FormInputs";
+
+import * as stateHelper from './Helpers/stateHelper';
+import AddressFormPropsModel from './Models/AddressFormPropsModel';
 
 class AddressForm extends Component {
+    state = AddressFormPropsModel;
+
+    componentDidMount() {
+        stateHelper.setState(this, this.props.address);
+    }
+
+    onChange = (propName, value) => {
+        this.setState({ [propName]: value }, () => this.props.onChange(this.state));
+    }
+
     render() {
         return (
             <>
-                <div className="row">
-                    <div className="col-12">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Street 1"
-                            onChange={(e) => {
-                                this.setState({ street1: e.target.value }, () => this.props.onChange(this.state));
-                            }}
-                        />
-                    </div>
-                </div>
-                <br />
-                <div className="row">
-                    <div className="col-12">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Street 2"
-                            onChange={(e) => {
-                                this.setState({ street2: e.target.value }, () => this.props.onChange(this.state));
-                            }}
-                        />
-                    </div>
-                </div>
-                <br />
-                <div className="row">
-                    <div className="col-12">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="City"
-                            onChange={(e) => {
-                                this.setState({ city: e.target.value }, () => this.props.onChange(this.state));
-                            }}
-                        />
-                    </div>
-                </div>
-                
-                <br />
-                <div className="row">
-                    <div className="col-12">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="State"
-                            onChange={(e) => {
-                                this.setState({ state: e.target.value }, () => this.props.onChange(this.state));
-                            }}
-                        />
-                    </div>
-                </div>
-                <br />
-                <div className="row">
-                    <div className="col-12">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Zip"
-                            onChange={(e) => {
-                                this.setState({ zip: e.target.value }, () => this.props.onChange(this.state));
-                            }}
-                        />
-                    </div>
-                </div>
+                <h4>Address Form</h4>
+                <FormInputs 
+                    formProps={this.state.formProps} 
+                    state={this.state} 
+                    onChange={this.onChange}
+                />
             </>
         );
     }

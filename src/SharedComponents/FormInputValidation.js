@@ -1,18 +1,11 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import FormInputs from './FormInputs';
 
-import * as stateHelper from './Helpers/stateHelper';
+class FormInputValidation extends Component {
 
-import FormInputs from "./SharedComponents/FormInputs";
-
-import ContactFormPropsModel from './Models/ContactFormPropsModel';
-
-
-class ContactForm extends Component {
-    state = {...ContactFormPropsModel, fieldValidations: []};
-
+    state = { fieldValidations: [] };
+    
     componentDidMount() {
-        stateHelper.setState(this, this.props.contact);
-
         const { formProps } = this.state;
 
         const result = formProps.filter(x => x[Object.keys(x)[0]].validate === true).map(x => {
@@ -22,10 +15,6 @@ class ContactForm extends Component {
         });
 
         this.setState({ fieldValidations: result });
-    }
-
-    onChange = (propName, value) => {
-        this.setState({ [propName]: value }, () => this.props.onChange(this.state));
     }
 
     renderBackBtn = () => {
@@ -94,13 +83,11 @@ class ContactForm extends Component {
 
     render() {
         return (
-            <>
-                <h4>Contact Form</h4>
-
+            <div>
                 <FormInputs 
-                    formProps={this.state.formProps} 
+                    formProps={this.props.formProps} 
                     state={this.state} 
-                    onChange={this.onChange}
+                    onChange={this.props.onChange}
                     onValidation={this.onValidation}
                     fieldValidations={this.state.fieldValidations}
                 />
@@ -117,9 +104,9 @@ class ContactForm extends Component {
                     </div>
                 </div>
                 {/* END */}
-            </>
+            </div>
         );
     }
 }
 
-export default ContactForm;
+export default FormInputValidation;

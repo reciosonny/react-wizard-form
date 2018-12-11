@@ -1,80 +1,86 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
-import "bootstrap/dist/css/bootstrap.css";
+import "materialize-css/dist/css/materialize.css";
+import "materialize-css/dist/js/materialize.js";
 
-import ModalWizardForm from "./ModalWizardForm";
 import ContactForm from "./ContactForm";
 import AddressForm from "./AddressForm";
 import CommentForm from "./CommentForm";
+import ReviewForm from "./ReviewForm";
+import ThankYouForm from "./ThankYouForm";
 
-// window.store = "mystore";
+import ContactFormPropsModel from './Models/ContactFormPropsModel';
+import AddressFormPropsModel from './Models/AddressFormPropsModel';
+import CommentFormPropsModel from './Models/CommentFormPropsModel';
 
 class App extends Component {
-    state = { step: 1, contactForm: {}, addressForm: {} };
+    state = { step: 1, contactForm: ContactFormPropsModel, addressForm: AddressFormPropsModel, commentForm: CommentFormPropsModel, disableControl: true };
 
-    componentDidMount() {
-        // debugger;
-    }
-
-    onChangeContactForm = (state) => {
+    onChangeContactForm = state => {
         this.setState({ contactForm: state });
     };
 
-    onChangeAddressForm = (state) => {
+    onChangeAddressForm = state => {
         this.setState({ addressForm: state });
+    };
+
+    onChangeCommentForm = state => {
+        this.setState({ commentForm: state });
+    };
+
+    onNextStep = () => {
+        const { step } = this.state;
+        this.setState({ step: step + 1 });
     }
 
-    renderBackBtn = () => {
+    onPrevStep = () => {
         const { step } = this.state;
-        if (step > 1) {
-            return (
-                <button
-                    className="btn btn-primary"
-                    onClick={() => this.setState({ step: step - 1 })}
-                >
-                    Previous
-                </button>
-            );
-        }
+        this.setState({ step: step - 1 });
+    }
 
-        return "";
-    };
-
-    renderNextBtn = () => {
-        const { step } = this.state;
-        if (step < 4) {
-            return (
-                <button className="btn btn-primary"
-                    onClick={() => {
-                        this.setState({
-                            step: step + 1
-                        });
-                    }}
-                >
-                    Next
-                </button>
-            );
-        }
-
-        return "";
-    };
+    onValidation = (validated) => {
+        console.log("Validation on top hierarchy: ", validated);
+        this.setState({ disableControl: !validated });
+    }
 
     render() {
-        const { step } = this.state;
+        const { step, contactForm, addressForm, commentForm } = this.state;
         let renderForm;
 
         switch (step) {
             case 1:
-                renderForm = <ContactForm onChange={this.onChangeContactForm} />;
+                renderForm = (
+                    <ContactForm 
+                        contact={contactForm} 
+                        onChange={this.onChangeContactForm} 
+                        onValidation={this.onValidation}
+                        step={step}
+                        onNextStep={this.onNextStep}
+                        onPrevStep={this.onPrevStep}
+                    />
+                );
                 break;
             case 2:
-                renderForm = <AddressForm />;
+                renderForm = (
+                    <AddressForm address={addressForm} onChange={this.onChangeAddressForm} />
+                );
                 break;
             case 3:
-                renderForm = <CommentForm />;
-            default:
+                renderForm = (
+                    <CommentForm comment={commentForm} onChange={this.onChangeCommentForm} />
+                );
+                break;
+            case 4: 
+                renderForm = <ReviewForm 
+                                {...this.state} 
+                                onChangeContactForm={this.onChangeContactForm}
+                                onChangeAddressForm={this.onChangeAddressForm}
+                                onChangeCommentForm={this.onChangeCommentForm}
+                            />;
+                break;
+            case 5:
+                renderForm = <ThankYouForm />;
                 break;
         }
 
@@ -82,7 +88,7 @@ class App extends Component {
             <div className="App">
                 <div className="div-form">
                     <div className="row">
-                        <div className="col-12">
+                        <div className="s12">
                             <h1 className="text-center">
                                 Please fillup the form
                             </h1>
@@ -90,27 +96,12 @@ class App extends Component {
                     </div>
 
                     <div className="row">
-                        <div className="col-12">
-                            **breadcrumbs here**
-                        </div>
+                        <div className="s12">**breadcrumbs here**</div>
                     </div>
 
                     <br />
                     {renderForm}
-
-                    <br />
-                    <div className="row">
-                        <div className="col-4">{this.renderBackBtn()}</div>
-                        <div
-                            className="col-4 offset-4"
-                            style={{ textAlign: "right" }}
-                        >
-                            {this.renderNextBtn()}
-                        </div>
-                    </div>
                 </div>
-
-                {/* <ModalWizardForm /> */}
             </div>
         );
     }
