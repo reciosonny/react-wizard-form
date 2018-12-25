@@ -6,21 +6,6 @@ import AddressForm from './AddressForm';
 import CommentForm from './CommentForm';
 
 
-function mapForm(formData) {
-    const { formProps } = formData;
-
-    const result = Object.keys(formData).filter(propForm => propForm !== "formProps").map((x) => {
-        const columnName = formProps.find(cFormProp => Object.keys(cFormProp)[0] === x)[x];
-
-        return <ReviewFormStyle 
-            label={columnName} 
-            value={formData[x]} 
-        />
-    });
-
-    return result;
-}
-
 class ReviewForm extends Component {
 
     constructor(props) {
@@ -35,6 +20,7 @@ class ReviewForm extends Component {
             <ReviewFormStyle label={labels[idx]} value={commentForm[prop]} />
         )
     }
+
     
     render() {
         const { contactForm, addressForm, commentForm } = this.props;
@@ -43,7 +29,7 @@ class ReviewForm extends Component {
 
         const editContactForm = <ContactForm onChange={this.props.onChangeContactForm} contact={contactForm} />
         const editAddressForm = <AddressForm onChange={this.props.onChangeAddressForm} address={addressForm} />
-        const editCommentForm = <CommentForm onChange={this.props.onChangeCommentForm} comment={commentForm} />
+        // const editCommentForm = <CommentForm onChange={this.props.onChangeCommentForm} comment={commentForm} />
 
         return (
             <div>
@@ -61,14 +47,46 @@ class ReviewForm extends Component {
                 <FormEditModal editForm={editAddressForm} />
 
 
-                <h4>Comments</h4>
+                {/* <h4>Comments</h4>
                 <hr/>
                 {this.renderCommentForm()}
-                <FormEditModal editForm={editCommentForm} />
+                <FormEditModal editForm={editCommentForm} /> */}
+
+                <div className="row">
+                    <div className="col s4">
+                        <button className="btn btn-primary">
+                            Previous
+                        </button>
+                    </div>
+                    <div
+                        className="col s8 offset-by-4"
+                        style={{ textAlign: "right" }}
+                    >
+                        <button className="btn btn-primary" onClick={this.props.onNextStep}>
+                            Submit
+                        </button>
+                    </div>
+                </div>
 
             </div>
         );
     }
 }
+
+function mapForm(formData) {
+    const { formProps } = formData;
+
+    const result = Object.keys(formData).filter(propForm => propForm !== "formProps" && propForm !== "fieldValidations").map((x) => {
+        const columnName = formProps.find(cFormProp => Object.keys(cFormProp)[0] === x)[x];
+
+        return <ReviewFormStyle 
+            label={columnName.label} 
+            value={formData[x]} 
+        />
+    });
+
+    return result;
+}
+
 
 export default ReviewForm;

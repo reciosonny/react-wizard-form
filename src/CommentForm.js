@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as stateHelper from './Helpers/stateHelper';
 
 import CommentFormPropsModel from './Models/CommentFormPropsModel';
+import FormInputs from "./SharedComponents/FormInputs";
 
 
 class CommentForm extends Component {
@@ -53,6 +54,16 @@ class CommentForm extends Component {
                     </div>
                 </div>
                 <br />
+
+                {/* <FormInputs 
+                    formProps={this.state.formProps} 
+                    forms={this.state} 
+                    step={this.props.step}
+                    onNextStep={this.props.onNextStep}
+                    onPrevStep={this.props.onPrevStep}
+                    onChange={this.props.onChange}
+                /> */}
+
             </div>
         );
     }

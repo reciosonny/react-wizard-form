@@ -5,10 +5,10 @@ export default {
     state: "",
     zip: "",
     formProps: [
-        { street1: "Street 1" },
-        { street2: "Street 2" },
-        { city: "City" },
-        { state: "State" },
-        { zip: "Zip" }
+        { street1: {label: "Street 1", validate: true} },
+        { street2: {label: "Street 2", validate: false} },
+        { city: {label: "City", validate: false} },
+        { state: {label: "State", validate: false} },
+        { zip: {label: "Zip", validate: false} },
     ]
 }

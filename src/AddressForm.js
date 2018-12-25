@@ -5,7 +5,7 @@ import * as stateHelper from './Helpers/stateHelper';
 import AddressFormPropsModel from './Models/AddressFormPropsModel';
 
 class AddressForm extends Component {
-    state = AddressFormPropsModel;
+    state = {...AddressFormPropsModel};
 
     componentDidMount() {
         stateHelper.setState(this, this.props.address);
@@ -21,8 +21,11 @@ class AddressForm extends Component {
                 <h4>Address Form</h4>
                 <FormInputs 
                     formProps={this.state.formProps} 
-                    state={this.state} 
-                    onChange={this.onChange}
+                    forms={this.state} 
+                    step={this.props.step}
+                    onNextStep={this.props.onNextStep}
+                    onPrevStep={this.props.onPrevStep}
+                    onChange={this.props.onChange}
                 />
             </>
         );

@@ -10,12 +10,37 @@ import CommentForm from "./CommentForm";
 import ReviewForm from "./ReviewForm";
 import ThankYouForm from "./ThankYouForm";
 
-import ContactFormPropsModel from './Models/ContactFormPropsModel';
-import AddressFormPropsModel from './Models/AddressFormPropsModel';
-import CommentFormPropsModel from './Models/CommentFormPropsModel';
+import ContactFormPropsModel from "./Models/ContactFormPropsModel";
+import AddressFormPropsModel from "./Models/AddressFormPropsModel";
+import CommentFormPropsModel from "./Models/CommentFormPropsModel";
+
+const BreadCrumbs = ({ breadcrumbs, onClick }) => {
+    return <div className="breadcrumb">
+        {breadcrumbs.map((x, idx) => {
+            const activeClass = x.active ? "breadcrumb__step--active" : "";
+            return (
+                <a className={`breadcrumb__step ${activeClass}`} href="#" onClick={() => onClick(idx)}>
+                    {x.name}
+                </a>
+            );
+        })}
+    </div>;
+};
 
 class App extends Component {
-    state = { step: 1, contactForm: ContactFormPropsModel, addressForm: AddressFormPropsModel, commentForm: CommentFormPropsModel, disableControl: true };
+    state = {
+        step: 1,
+        contactForm: ContactFormPropsModel,
+        addressForm: AddressFormPropsModel,
+        commentForm: CommentFormPropsModel,
+        disableControl: true,
+        breadcrumbsStep: [
+            { name: "Contact Form", active: true },
+            { name: "Address Form", active: false },
+            { name: "Review", active: false },
+            { name: "Success", active: false }
+        ]
+    };
 
     onChangeContactForm = state => {
         this.setState({ contactForm: state });
@@ -31,18 +56,26 @@ class App extends Component {
 
     onNextStep = () => {
         const { step } = this.state;
-        this.setState({ step: step + 1 });
-    }
+        const newStep = step+1;
+
+        this.setState({ step: newStep, breadcrumbsStep: mapBreadcrumbs(this.state.breadcrumbsStep, newStep-1) });
+    };
 
     onPrevStep = () => {
         const { step } = this.state;
-        this.setState({ step: step - 1 });
-    }
+        const newStep = step-1;
 
-    onValidation = (validated) => {
+        this.setState({ step: newStep, breadcrumbsStep: mapBreadcrumbs(this.state.breadcrumbsStep, newStep-1) });
+    };
+
+    onValidation = validated => {
         console.log("Validation on top hierarchy: ", validated);
         this.setState({ disableControl: !validated });
-    }
+    };
+
+    onBreadCrumbsClick = (currIndex) => {
+        this.setState({ breadcrumbsStep : mapBreadcrumbs(this.state.breadcrumbsStep, currIndex) });
+    };
 
     render() {
         const { step, contactForm, addressForm, commentForm } = this.state;
@@ -51,9 +84,9 @@ class App extends Component {
         switch (step) {
             case 1:
                 renderForm = (
-                    <ContactForm 
-                        contact={contactForm} 
-                        onChange={this.onChangeContactForm} 
+                    <ContactForm
+                        contact={contactForm}
+                        onChange={this.onChangeContactForm}
                         onValidation={this.onValidation}
                         step={step}
                         onNextStep={this.onNextStep}
@@ -63,23 +96,33 @@ class App extends Component {
                 break;
             case 2:
                 renderForm = (
-                    <AddressForm address={addressForm} onChange={this.onChangeAddressForm} />
+                    <AddressForm
+                        address={addressForm}
+                        onChange={this.onChangeAddressForm}
+                        onValidation={this.onValidation}
+                        step={step}
+                        onNextStep={this.onNextStep}
+                        onPrevStep={this.onPrevStep}
+                    />
                 );
                 break;
+            // case 3:
+            //     renderForm = (
+            //         <CommentForm comment={commentForm} onChange={this.onChangeCommentForm} />
+            //     );
+            //     break;
             case 3:
                 renderForm = (
-                    <CommentForm comment={commentForm} onChange={this.onChangeCommentForm} />
+                    <ReviewForm
+                        {...this.state}
+                        onChangeContactForm={this.onChangeContactForm}
+                        onChangeAddressForm={this.onChangeAddressForm}
+                        onChangeCommentForm={this.onChangeCommentForm}
+                        onNextStep={this.onNextStep}
+                    />
                 );
                 break;
-            case 4: 
-                renderForm = <ReviewForm 
-                                {...this.state} 
-                                onChangeContactForm={this.onChangeContactForm}
-                                onChangeAddressForm={this.onChangeAddressForm}
-                                onChangeCommentForm={this.onChangeCommentForm}
-                            />;
-                break;
-            case 5:
+            case 4:
                 renderForm = <ThankYouForm />;
                 break;
         }
@@ -96,7 +139,7 @@ class App extends Component {
                     </div>
 
                     <div className="row">
-                        <div className="s12">**breadcrumbs here**</div>
+                        <BreadCrumbs breadcrumbs={this.state.breadcrumbsStep} onClick={this.onBreadCrumbsClick} />
                     </div>
 
                     <br />
@@ -105,6 +148,13 @@ class App extends Component {
             </div>
         );
     }
+}
+
+function mapBreadcrumbs(breadcrumbs, currIndex) {
+    return breadcrumbs.map((x, idx) => {
+        x.active = currIndex >= idx;
+        return x;
+    });
 }
 
 export default App;
