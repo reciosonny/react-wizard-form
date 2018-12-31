@@ -36,7 +36,6 @@ class FormInput extends Component {
                         <span className="red-text" style={{display: displayValidation}}>Required</span>
                     </div>
                 </div>
-                <br />
             </>
         );
     }

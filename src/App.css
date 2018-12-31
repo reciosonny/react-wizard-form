@@ -33,7 +33,7 @@
 
 .div-form {
     width: 500px;
-    margin: 200px auto;
+    margin: 5em auto;
 }
 
 .div-form-fields {
@@ -53,7 +53,7 @@
     opacity: 0;
     animation-name: rightFadeInOut;
     animation-delay: 0s;
-    animation-duration: 1s;
+    animation-duration: 0.1s;
     animation-timing-function: ease-in;
     animation-fill-mode: forwards; /*use this animation property to retain the animation afterwards(100% animation keyframes)*/
     color: #ccc;
@@ -63,13 +63,15 @@
     0% {
         /* position: absolute; */
         /* right: -10rem; */
-        transform: translateX(150px);
+        /* transform: translateX(150px) scale(0.2); */
+        transform: scale(0.5);
         opacity: 0;
     }
 
     100% {
         /* right: 0rem; */
-        transform: translateX(0px);
+        /* transform: translateX(0px) scale(1); */
+        transform: scale(1);
         opacity: 1;
     }
 }

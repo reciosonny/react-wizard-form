@@ -14,12 +14,12 @@ import ContactFormPropsModel from "./Models/ContactFormPropsModel";
 import AddressFormPropsModel from "./Models/AddressFormPropsModel";
 import CommentFormPropsModel from "./Models/CommentFormPropsModel";
 
-const BreadCrumbs = ({ breadcrumbs, onClick }) => {
+const BreadCrumbs = ({ breadcrumbs }) => {
     return <div className="breadcrumb">
         {breadcrumbs.map((x, idx) => {
             const activeClass = x.active ? "breadcrumb__step--active" : "";
             return (
-                <a className={`breadcrumb__step ${activeClass}`} href="#" onClick={() => onClick(idx)}>
+                <a className={`breadcrumb__step ${activeClass}`} href="javascript:void(0)">
                     {x.name}
                 </a>
             );
@@ -73,9 +73,9 @@ class App extends Component {
         this.setState({ disableControl: !validated });
     };
 
-    onBreadCrumbsClick = (currIndex) => {
-        this.setState({ breadcrumbsStep : mapBreadcrumbs(this.state.breadcrumbsStep, currIndex) });
-    };
+    // onBreadCrumbsClick = (currIndex) => {
+    //     this.setState({ breadcrumbsStep : mapBreadcrumbs(this.state.breadcrumbsStep, currIndex) });
+    // };
 
     render() {
         const { step, contactForm, addressForm, commentForm } = this.state;
@@ -131,15 +131,7 @@ class App extends Component {
             <div className="App">
                 <div className="div-form">
                     <div className="row">
-                        <div className="s12">
-                            <h1 className="text-center">
-                                Please fillup the form
-                            </h1>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <BreadCrumbs breadcrumbs={this.state.breadcrumbsStep} onClick={this.onBreadCrumbsClick} />
+                        <BreadCrumbs breadcrumbs={this.state.breadcrumbsStep} />
                     </div>
 
                     <br />
