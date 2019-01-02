@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import "materialize-css/dist/css/materialize.css";
-import "materialize-css/dist/js/materialize.js";
+// import "materialize-css/dist/css/materialize.css";
+// import "materialize-css/dist/js/materialize.js";
 
 import ContactForm from "./ContactForm";
 import AddressForm from "./AddressForm";
