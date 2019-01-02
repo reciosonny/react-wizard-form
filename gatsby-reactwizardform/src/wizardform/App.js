@@ -6,7 +6,6 @@ import "materialize-css/dist/js/materialize.js";
 
 import ContactForm from "./ContactForm";
 import AddressForm from "./AddressForm";
-import CommentForm from "./CommentForm";
 import ReviewForm from "./ReviewForm";
 import ThankYouForm from "./ThankYouForm";
 
