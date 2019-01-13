@@ -44,7 +44,7 @@
 }
 
 .form-modal-edit {
-    width: 650px;
+    width: 550px !important;
 }
 
 .form-intro {

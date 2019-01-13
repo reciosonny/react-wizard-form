@@ -36,25 +36,23 @@ class ReviewForm extends Component {
                 <h3>Review form</h3>
                 <br/><br/>
 
-                <h4>Contacts</h4>
-                <hr/>
-                {renderContactForm}
-                <FormEditModal editForm={editContactForm} />
+                <div className="row">
+                    <div className="">
+                        <h4>Contacts</h4>
+                        <hr/>
+                        {renderContactForm}
+                        <FormEditModal editForm={editContactForm} />
 
-                <h4>Address</h4>
-                <hr/>
-                {renderAddressForm}
-                <FormEditModal editForm={editAddressForm} />
-
-
-                {/* <h4>Comments</h4>
-                <hr/>
-                {this.renderCommentForm()}
-                <FormEditModal editForm={editCommentForm} /> */}
+                        <h4>Address</h4>
+                        <hr/>
+                        {renderAddressForm}
+                        <FormEditModal editForm={editAddressForm} />
+                    </div>
+                </div>
 
                 <div className="row">
                     <div className="col s4">
-                        <button className="btn btn-primary">
+                        <button className="btn btn-primary" onClick={this.props.onPrevStep}>
                             Previous
                         </button>
                     </div>

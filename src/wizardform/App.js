@@ -18,7 +18,7 @@ const BreadCrumbs = ({ breadcrumbs }) => {
         {breadcrumbs.map((x, idx) => {
             const activeClass = x.active ? "breadcrumb__step--active" : "";
             return (
-                <a className={`breadcrumb__step ${activeClass}`} href="javascript:void(0)">
+                    <a className={`breadcrumb__step ${activeClass}`} href="javascript:void(0)">
                     {x.name}
                 </a>
             );
@@ -118,6 +118,7 @@ class App extends Component {
                         onChangeAddressForm={this.onChangeAddressForm}
                         onChangeCommentForm={this.onChangeCommentForm}
                         onNextStep={this.onNextStep}
+                        onPrevStep={this.onPrevStep}
                     />
                 );
                 break;
